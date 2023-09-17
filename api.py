@@ -2,13 +2,18 @@
 from flask import Flask, request
 
 from ticket_bucket import TicketBucket
+from fixed_win_counter import FixedWindowCounter
 
 
 app = Flask(__name__)
 
 register = {}
 
+# Using Ticket Bucket Algorithm
 rate_limiter = TicketBucket
+
+# # Using Fixed Window Algorithm
+# rate_limiter = FixedWindowCounter
 
 
 @app.before_request
