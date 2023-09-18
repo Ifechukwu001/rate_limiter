@@ -19,7 +19,8 @@ rate_limiter = TicketBucket
 @app.before_request
 def throttler():
     """Limits the rate of request to routes"""
-    if request.url_rule.rule == "/limited":
+    rule = request.url_rule
+    if rule and (rule == "/limited"):
         address = request.remote_addr
         if address in register:
             if not register[address].allow_request():
