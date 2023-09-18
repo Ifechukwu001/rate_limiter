@@ -23,7 +23,7 @@ rate_limiter = TicketBucket
 def throttler():
     """Limits the rate of request to routes"""
     rule = request.url_rule
-    if rule and (rule == "/limited"):
+    if rule and (rule.rule == "/limited"):
         address = getenv("X-Forwarded-For")
         if not address:
             address = request.remote_addr
