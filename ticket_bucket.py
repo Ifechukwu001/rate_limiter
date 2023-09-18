@@ -52,4 +52,4 @@ class TicketBucket:
         time_diff = time_diff.seconds
         token = time_diff * self.refill_size
 
-        self.current_size = token if token <= self.max_size else self.max_size
+        self.current_size = min(self.current_size + token, self.max_size)
