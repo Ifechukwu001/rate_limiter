@@ -49,7 +49,7 @@ class TicketBucket:
         """Refills the token bucket"""
         now = datetime.utcnow()
         time_diff = now - self.lastrefill
+        time_diff = time_diff.seconds
         token = time_diff * self.refill_size
-        token = token.seconds
 
         self.current_size = token if token <= self.max_size else self.max_size
