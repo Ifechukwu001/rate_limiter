@@ -44,6 +44,8 @@ class FixedWindowCounter:
         """Checks the interval of the request"""
         now = datetime.utcnow()
         interval = now - self.initial_time
+        interval = interval.seconds
+
         if interval >= self.time_window:
             self.initial_time = now
             self.request_count = 0

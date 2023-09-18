@@ -50,5 +50,6 @@ class TicketBucket:
         now = datetime.utcnow()
         time_diff = now - self.lastrefill
         token = time_diff * self.refill_size
+        token = token.seconds
 
         self.current_size = token if token <= self.max_size else self.max_size
