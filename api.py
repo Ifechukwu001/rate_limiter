@@ -1,11 +1,14 @@
 """ API for testing purposes"""
+from os import getenv
 from flask import Flask, request
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from ticket_bucket import TicketBucket
 from fixed_win_counter import FixedWindowCounter
 
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
 
 register = {}
 
@@ -21,7 +24,9 @@ def throttler():
     """Limits the rate of request to routes"""
     rule = request.url_rule
     if rule and (rule == "/limited"):
-        address = request.remote_addr
+        address = getenv("X-Forwarded-For")
+        if not address:
+            address = request.remote_addr
         if address in register:
             if not register[address].allow_request():
                 return "Too much requests", 429
